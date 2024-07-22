@@ -1,24 +1,22 @@
 'use strict';
 
+const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    const hashedPassword = await bcrypt.hash('test@123', saltRounds);
     await queryInterface.bulkInsert('Users', [
       {
-        userId: 'unique_user_id_1',
-        password: 'hashed_password_1',
-        email: 'user1@example.com',
-        dob: '1990-01-01',
-        firstName: 'John',
-        lastName: 'Doe'
+        userId: uuidv4(),
+        password: hashedPassword,
+        email: 'test@gmail.com',
+        dob: '2002-07-18',
+        firstName: 'test',
+        lastName: 'test',
+        role: 'superadmin'
       },
-      {
-        userId: 'unique_user_id_2',
-        password: 'hashed_password_2',
-        email: 'user2@example.com',
-        dob: '1992-02-02',
-        firstName: 'Jane',
-        lastName: 'Smith'
-      }
     ], {});
   },
 
