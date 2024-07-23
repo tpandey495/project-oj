@@ -4,7 +4,6 @@ const { Model, DataTypes, UUIDV4 } = require('sequelize');
 
 module.exports = (sequelize) => {
   class User extends Model {}
-
   User.init({
     userId: {
       type: DataTypes.UUID,
