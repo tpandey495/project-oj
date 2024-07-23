@@ -2,10 +2,19 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../database/models');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
-const { verifyToken } = require('../middleware/verifyToken');
+
 
 const createToken = (user) => {
   return jwt.sign({ userId: user.userId, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+};
+
+
+const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    throw new Error('Invalid or expired token');
+  }
 };
 
 
