@@ -3,7 +3,7 @@ name: Deploy to EC2 using ECR
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch
+      - master-backend # Trigger on push to the main branch
 
 jobs:
   build:
