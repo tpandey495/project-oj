@@ -29,8 +29,8 @@ jobs:
 
     - name: Build and push Docker image
       env:
-        AWS_ACCOUNT_ID: ${{SECRET.AWS_ACCOUNT_ID }}
-        AWS_REGION: ${{SECRET.AWS_REGION }}
+        AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID }}
+        AWS_REGION: ${{secrets.AWS_REGION }}
       run: |
         cd backend
         docker build -t cpp-compiler .
@@ -39,8 +39,8 @@ jobs:
 
     - name: Deploy to EC2
       env:
-        SSH_PRIVATE_KEY: ${{SECRET.EC2_SSH_KEY }}
-        EC2_HOST: ${{SECRET.EC2_HOST }}
+        SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY }}
+        EC2_HOST: ${{secrets.EC2_HOST }}
       run: |
         echo "$SSH_PRIVATE_KEY" > id_rsa
         chmod 600 id_rsa
