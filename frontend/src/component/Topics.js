@@ -87,7 +87,7 @@ const Topics = () => {
   return (
     <Box sx={{width:"80%",margin:"auto",textAlign:"center",background: '#363636',color:'white'}}>
       <Slider  {...settings}>
-        {data.map((item, index) => (
+        {data&&data.map((item, index) => (
           <div key={index} >
             <Chip
               label={item.sub}

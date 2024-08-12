@@ -5,113 +5,130 @@ import hero from '../../assets/heroicon.png';
 import Topics from '../../component/Topics';
 import BottomNavbar from '../../component/BottomNavbar';
 import Navbar from '../../component/Navbar';
-
-
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CodeIcon from '@mui/icons-material/Code';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate=useNavigate();
   const columns = [
-    { field: 'status', headerName: 'Status', flex: 1 },
+    { 
+      field: 'status', 
+      headerName: 'Status', 
+      flex: 1,
+      renderCell: (params) => (
+        params.value === 'solved' ? <CheckCircleIcon /> : <CalendarTodayIcon />
+      ),
+    },
     { field: 'title', headerName: 'Title', flex: 1 },
-    { field: 'solution', headerName: 'Solution', flex: 1 },
+    { 
+      field: 'solution', 
+      headerName: 'Solution', 
+      flex: 1,
+      renderCell: () => <CodeIcon />,
+    },
     { field: 'acceptance', headerName: 'Acceptance', flex: 1 },
     { field: 'difficulty', headerName: 'Difficulty', flex: 1 },
     { field: 'frequency', headerName: "Frequency", flex: 1 },
   ];
-
+  
   const rows = [
     {
       id: 1,
-      status: 'Open',
-      title: 'Issue with login',
-      solution: 'Reset password',
-      acceptance: 'High',
-      difficulty: 'Low',
-      frequency: 'Occasional'
-    },
-    {
-      id: 2,
-      status: 'In Progress',
-      title: 'Error in data export',
-      solution: 'Update export settings',
-      acceptance: 'Medium',
+      status: 'unsolved',  
+      title: 'Subarray Sum Equals K',
+      solution: true,
+      acceptance: '32%',
       difficulty: 'Medium',
       frequency: 'Frequent'
     },
     {
-      id: 3,
-      status: 'Resolved',
-      title: 'Performance issues',
-      solution: 'Optimize database queries',
-      acceptance: 'High',
-      difficulty: 'High',
-      frequency: 'Rare'
+      id: 2,
+      status: 'solved',  
+      title: 'Two Sum',
+      solution: true,
+      acceptance: '45%',
+      difficulty: 'Easy',
+      frequency: 'Frequent'
     },
     {
-      id: 4,
-      status: 'Closed',
-      title: 'UI glitch in dashboard',
-      solution: 'Patch UI components',
-      acceptance: 'Low',
-      difficulty: 'Low',
+      id: 3,
+      status: 'unsolved',  
+      title: 'Longest Substring Without Repeating Characters',
+      solution: true,
+      acceptance: '25%',
+      difficulty: 'Hard',
       frequency: 'Occasional'
     },
     {
+      id: 4,
+      status: 'solved',  
+      title: 'Best Time to Buy and Sell Stock',
+      solution: true,
+      acceptance: '53%',
+      difficulty: 'Easy',
+      frequency: 'Frequent'
+    },
+    {
       id: 5,
-      status: 'Open',
-      title: 'Incorrect calculations',
-      solution: 'Fix calculation logic',
-      acceptance: 'High',
+      status: 'unsolved',  
+      title: 'Product of Array Except Self',
+      solution: true,
+      acceptance: '38%',
       difficulty: 'Medium',
       frequency: 'Frequent'
     },
     {
       id: 6,
-      status: 'In Progress',
-      title: 'Network connectivity issue',
-      solution: 'Check network configuration',
-      acceptance: 'Medium',
-      difficulty: 'High',
+      status: 'solved',  
+      title: 'Merge Intervals',
+      solution: true,
+      acceptance: '41%',
+      difficulty: 'Medium',
       frequency: 'Occasional'
     },
     {
       id: 7,
-      status: 'Resolved',
-      title: 'Error in report generation',
-      solution: 'Update report templates',
-      acceptance: 'High',
-      difficulty: 'Medium',
+      status: 'unsolved',  
+      title: 'Binary Tree Maximum Path Sum',
+      solution: true,
+      acceptance: '21%',
+      difficulty: 'Hard',
       frequency: 'Rare'
     },
     {
       id: 8,
-      status: 'Closed',
-      title: 'Missing documentation',
-      solution: 'Add missing documentation',
-      acceptance: 'Low',
-      difficulty: 'Low',
-      frequency: 'Rare'
+      status: 'solved',  
+      title: 'Linked List Cycle',
+      solution: true,
+      acceptance: '47%',
+      difficulty: 'Easy',
+      frequency: 'Occasional'
     },
     {
       id: 9,
-      status: 'Open',
-      title: 'User permissions issue',
-      solution: 'Adjust user roles and permissions',
-      acceptance: 'Medium',
+      status: 'unsolved',  
+      title: 'Word Break',
+      solution: true,
+      acceptance: '30%',
       difficulty: 'Medium',
       frequency: 'Frequent'
     },
     {
       id: 10,
-      status: 'In Progress',
-      title: 'Data synchronization error',
-      solution: 'Reconfigure data sync settings',
-      acceptance: 'High',
-      difficulty: 'High',
+      status: 'solved',  
+      title: 'Course Schedule',
+      solution: true,
+      acceptance: '36%',
+      difficulty: 'Medium',
       frequency: 'Occasional'
     },
   ];
 
-
+ const handleRowClick=(params)=>{
+  navigate(`/problem`);
+ }
   return (
     <>
       <Navbar />
@@ -144,10 +161,11 @@ const Home = () => {
               getRowClassName={(params) =>
                 params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
               }
+              onRowClick={handleRowClick}
               sx={{
                 // Styles for the DataGrid component
                 '& .MuiDataGrid-root': {
-                  backgroundColor: '#1d1d1d', // Background color for the whole grid
+                  backgroundColor: '#1d1d1d', 
                 },
                 '& .MuiDataGrid-cell': {
                   color: '#ffffff', // Text color for cells

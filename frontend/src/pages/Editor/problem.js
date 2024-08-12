@@ -430,63 +430,7 @@ const LabTabs = React.memo(() => {
         <StyledPaper
           sx={{ height: "100%", background: "#262626", color: "#fff" }}
         >
-          <Paper
-            sx={{
-              height: "100vh",
-              background: "#262626",
-              color: "#fff",
-              overflow: "scroll",
-              border: "1px solid #ffffff",
-              borderRadius: "20px",
-            }}>
-            <Box sx={{ width: "100%", typography: "body1" }}>
-              <TabContext value={value}>
-                <Box
-                  sx={{
-                    borderBottom: 1,
-                    borderColor: "divider",
-                    background: "#333333",
-                    position: "relative",
-                    top: 0,
-                    left: 0,
-                    overflow: "hidden",
-                  }}
-                >
-                  <TabList
-                    onChange={handleChange}
-                    aria-label="lab API tabs example"
-                  >
-                    <Tab
-                      icon={<DescriptionIcon />}
-                      label="Description"
-                      value="1"
-                      sx={{
-                        color: "#fff",
-                        textTransform: "none",
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: "5px",
-                      }}
-                    />
-                    <Tab
-                      icon={<AutoStoriesIcon />}
-                      label="Editorial"
-                      value="2"
-                      sx={{
-                        color: "#fff",
-                        textTransform: "none",
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: "5px",
-                      }}
-                    />
-                  </TabList>
-                </Box>
-                <TabPanel value="1" sx={{ overflow: "auto" }}><Editor /></TabPanel>
-                <TabPanel value="2">Editorial</TabPanel>
-              </TabContext>
-            </Box>
-          </Paper>
+            <Editor />
         </StyledPaper>
       </Grid>
     </Grid>

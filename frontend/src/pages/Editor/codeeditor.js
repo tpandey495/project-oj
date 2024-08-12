@@ -5,12 +5,16 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
 import axios from 'axios';
-import { Container, Box, Typography, TextareaAutosize, Button, Paper } from '@mui/material';
+import { Container, Tab, Box, Typography, TextareaAutosize, Button, Paper } from '@mui/material';
 import { styled } from '@mui/system';
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
 const StyledEditorContainer = styled(Paper)(({ theme }) => ({
-  height: '300px',
+  height: '100%',
   overflowY: 'auto',
+  width: '100%',
   padding: theme.spacing(2),
   //backgroundColor: theme.palette.background.paper,
 }));
@@ -22,7 +26,7 @@ const StyledOutputContainer = styled(Paper)(({ theme }) => ({
   //backgroundColor: theme.palette.background.Paper,
 }));
 
-const  App=()=>{
+const App = () => {
   const [code, setCode] = useState(`#include <iostream> 
     using namespace std;
     // Define the main function
@@ -40,6 +44,11 @@ const  App=()=>{
     }`);
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
+  const [value, setValue] = useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const handleSubmit = async () => {
     const payload = {
@@ -47,11 +56,18 @@ const  App=()=>{
       code,
       input
     };
-
+    console.log(payload);
     try {
-      const { data } = await axios.post(import.meta.env.VITE_BACKEND_URL, payload);
+      const { data } = await axios.post('http://localhost:9000/api/problems/run', payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': '', // Example header
+         
+        },
+      });
       console.log(data);
       setOutput(data.output);
+      setValue('2');
     } catch (error) {
       console.log(error.response);
     }
@@ -59,9 +75,10 @@ const  App=()=>{
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box display="flex" flexDirection={{ xs: 'column', lg: 'row' }} gap={4}>
+      <Typography>Code</Typography>
+      <Box display="flex" flexDirection="column" gap={4}>
         {/* Left side: Compiler editor */}
-        <Box flex={1}>
+        <Box flex={1} sx={{ paddingRight: "30px", height: '80%' }}>
           <StyledEditorContainer>
             <Editor
               value={code}
@@ -75,50 +92,98 @@ const  App=()=>{
                 border: 'none',
                 backgroundColor: '#f7fafc',
                 height: '100%',
-                overflowY: 'auto'
+                overflowY: 'auto',
               }}
             />
           </StyledEditorContainer>
-          <Button 
-            variant="contained" 
-            sx={{ mt: 2, width: '100%' }}
-            onClick={handleSubmit}
-          >
-            Run
-          </Button>
+
         </Box>
 
         {/* Right side: Input and Output */}
-        <Box flex={1}>
-          {/* Input textarea */}
-          <Box mb={2}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Input
-            </Typography>
-            <TextareaAutosize
-              minRows={5}
-              value={input}
-              placeholder="Input"
-              onChange={(e) => setInput(e.target.value)}
-              style={{ width: '100%', padding: 8, borderRadius: 4, border: '1px solid #ccc' }}
-            />
-          </Box>
+        <Box flex={1} sx={{ height: "20%" }}>
 
-          {/* Output box */}
-          <StyledOutputContainer>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Output
-            </Typography>
+
+          <TabContext value={value}>
             <Box
               sx={{
-                fontFamily: '"Fira code", "Fira Mono", monospace',
-                fontSize: '0.75rem',
-                whiteSpace: 'pre-wrap'
+                borderBottom: 1,
+                borderColor: "divider",
+                background: "#333333",
+                position: "relative",
+                top: 0,
+                left: 0,
+                overflow: "hidden",
               }}
             >
-              {output}
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                <Tab
+                  label="Input"
+                  value="1"
+                  sx={{
+                    color: "#fff",
+                    textTransform: "none",
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "5px",
+                  }}
+                />
+                <Tab
+                  label="Output"
+                  value="2"
+                  sx={{
+                    color: "#fff",
+                    textTransform: "none",
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "5px",
+                  }}
+                />
+              </TabList>
             </Box>
-          </StyledOutputContainer>
+            <TabPanel value="1" sx={{ overflow: "auto" }}>
+              {/* Input textarea */}
+              <Box mb={2}>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Input
+                </Typography>
+                <TextareaAutosize
+                  minRows={5}
+                  value={input}
+                  placeholder="Input"
+                  onChange={(e) => setInput(e.target.value)}
+                  style={{ width: '100%', padding: 8, borderRadius: 4, border: '1px solid #ccc' }}
+                />
+              </Box>
+              <Button
+                variant="contained"
+                sx={{ mt: 2, width: '100%' }}
+                onClick={handleSubmit}
+              >
+                Run
+              </Button>
+              {/* Output box */}
+
+            </TabPanel>
+            <TabPanel value="2">
+              <StyledOutputContainer>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Output
+                </Typography>
+                <Box
+                  sx={{
+                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                    fontSize: '0.75rem',
+                    whiteSpace: 'pre-wrap'
+                  }}
+                >
+                  {output}
+                </Box>
+              </StyledOutputContainer
+              ></TabPanel>
+          </TabContext>
         </Box>
       </Box>
     </Container>
