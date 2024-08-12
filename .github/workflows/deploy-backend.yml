@@ -55,8 +55,15 @@ jobs:
         ECR_REPOSITORY: compiler
         IMAGE_TAG: ${{ steps.get-commit-hash.outputs.commit-hash }}-${{ steps.get-timestamp.outputs.timestamp }}
       run: |
+        # Build the Docker image
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        # Tag the image (if needed, for other tags or formats)
+        # docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        # Push the Docker image
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        # Optionally push other tags (e.g., latest)
+        # docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+    
 
     - name: Deploy to EC2
       env:
