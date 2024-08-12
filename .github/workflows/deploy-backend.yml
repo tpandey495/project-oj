@@ -28,16 +28,19 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build and push Docker image
+      env:
+        AWS_ACCOUNT_ID: ${{SECRET.AWS_ACCOUNT_ID }}
+        AWS_REGION: ${{SECRET.AWS_REGION }}
       run: |
         cd backend
         docker build -t cpp-compiler .
-        docker tag backend-repo:latest <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/backend-repo:latest
-        docker push <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/backend-repo:latest
+        docker tag cpp-compiler:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend-repo:latest
+        docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend-repo:latest
 
     - name: Deploy to EC2
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-        EC2_HOST: ${{ secrets.EC2_HOST }}
+        SSH_PRIVATE_KEY: ${{SECRET.EC2_SSH_KEY }}
+        EC2_HOST: ${{SECRET.EC2_HOST }}
       run: |
         echo "$SSH_PRIVATE_KEY" > id_rsa
         chmod 600 id_rsa
