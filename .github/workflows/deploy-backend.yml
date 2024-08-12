@@ -24,6 +24,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildx-
 
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
     - name: Log in to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v1
 
@@ -33,14 +40,14 @@ jobs:
         AWS_REGION: ${{secrets.AWS_REGION }}
       run: |
         cd backend
-        docker build -t cpp-compiler .
-        docker tag cpp-compiler:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend-repo:latest
+        docker build -t compiler .
+        docker tag compiler:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend-repo:latest
         docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/backend-repo:latest
 
     - name: Deploy to EC2
       env:
-        SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY }}
-        EC2_HOST: ${{secrets.EC2_HOST }}
+        SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
+        EC2_HOST: ${{secrets.EC2_HOST}}
       run: |
         echo "$SSH_PRIVATE_KEY" > id_rsa
         chmod 600 id_rsa
