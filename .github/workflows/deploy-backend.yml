@@ -45,3 +45,8 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > id_rsa
         chmod 600 id_rsa
         ssh -o StrictHostKeyChecking=no -i id_rsa ec2-user@$EC2_HOST 'bash -s' < deploy.sh
+        if [ $? -eq 0 ]; then
+          echo "Login to EC2 succeeded, deployment started."
+        else
+          echo "Login to EC2 failed."
+        fi
