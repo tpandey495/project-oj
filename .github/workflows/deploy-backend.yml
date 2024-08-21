@@ -23,7 +23,6 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
-
     - name: Debug AWS Credentials
       run: aws sts get-caller-identity
       env:
@@ -65,20 +64,71 @@ jobs:
         # Build the Docker image from the 'backend' directory
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f backend/Dockerfile backend/
         
-        # Tag the image (optional, for other tags or formats)
-        # docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        
         # Push the Docker image
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        # Set IMAGE_TAG as an output
+        echo "::set-output name=image-tag::$IMAGE_TAG"
         
-        # Optionally push other tags (e.g., latest)
-        # docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+    - name: Deploy docker image to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          # Set the necessary variables directly in the script
+          REGISTRY="${{ steps.login-ecr.outputs.registry }}"
+          REPOSITORY="compiler"
+          AWS_REGION="ap-southeast-1"
+          # Fetch the latest IMAGE_TAG dynamically from ECR
+          IMAGE_TAG=$(aws ecr describe-images \
+            --repository-name $REPOSITORY \
+            --region $AWS_REGION \
+            --query 'sort_by(imageDetails,&imagePushedAt)[-1].imageTags[0]' \
+            --output text)
+          # Check if IMAGE_TAG was retrieved successfully
+          if [ -z "$IMAGE_TAG" ]; then
+            echo "Failed to retrieve IMAGE_TAG from ECR"
+            exit 1
+          fi
+          # Debug: Print the variables to ensure they're set correctly
+          echo "Registry: $REGISTRY"
+          echo "Repository: $REPOSITORY"
+          echo "Image Tag: $IMAGE_TAG"
+          echo "AWS Region: $AWS_REGION"
+    
+          # Construct the full image reference
+          FULL_IMAGE_REF="$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+          echo "Full Image Reference: $FULL_IMAGE_REF"
+          
+          # Ensure the directory exists for the .env file
+          sudo mkdir -p /path/to/root
+          
+          # Create the .env file with secrets
+          echo "DB_HOST=${{ secrets.DB_HOST }}" | sudo tee /home/ubuntu/.env > /dev/null
+          echo "DB_PORT=${{ secrets.DB_PORT }}" | sudo tee -a /home/ubuntu/.env > /dev/null
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" | sudo tee -a /home/ubuntu/.env > /dev/null
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" | sudo tee -a /home/ubuntu/.env > /dev/null
+          echo "DB_DIALECT=${{ secrets.DB_DIALECT }}" | sudo tee -a /home/ubuntu/.env > /dev/null
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" | sudo tee -a /home/ubuntu/.env > /dev/null
+          echo "Session_Secret=${{ secrets.Session_Secret }}" | sudo tee -a /home/ubuntu/.env > /dev/null
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" | sudo tee -a /home/ubuntu/.env > /dev/null
+          
+          # Stop and remove old Docker container if it exists
+          sudo docker stop myappcontainer || true
+          sudo docker rm myappcontainer || true
 
-    - name: Deploy to EC2
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-        EC2_HOST: ${{ secrets.EC2_HOST }}
-      run: |
-        echo "$SSH_PRIVATE_KEY" > id_rsa
-        chmod 600 id_rsa
-        ssh -o StrictHostKeyChecking=no -i id_rsa ec2-user@$EC2_HOST "bash /deploy.sh ${{ steps.login-ecr.outputs.registry }} ${{ steps.get-commit-hash.outputs.commit-hash }}-${{ steps.get-timestamp.outputs.timestamp }}"
+          # Log in to Amazon ECR
+          # sudo aws ecr get-login-password --region ap-southeast-1 | sudo docker login --username AWS --password-stdin 022792628283.dkr.ecr.ap-southeast-1.amazonaws.com    
+          sudo aws ecr get-login-password --region $AWS_REGION | sudo docker login --username AWS --password-stdin $REGISTRY
+          
+          # Pull the Docker image from ECR
+          # docker pull "${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}"
+          sudo docker pull "$FULL_IMAGE_REF"
+
+          # Run the Docker container with the .env file
+          sudo docker run -d \
+            --name myappcontainer \
+            --env-file /home/ubuntu/.env \
+            -p 80:9000 \
+            "$FULL_IMAGE_REF"
