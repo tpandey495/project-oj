@@ -1,17 +1,18 @@
-import { Box, Grid, Typography } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
 import React from 'react';
-import hero from '../../assets/heroicon.png';
-import Topics from '../../component/Topics';
-import BottomNavbar from '../../component/BottomNavbar';
-import Navbar from '../../component/Navbar';
+import { Box, Grid, Typography } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CodeIcon from '@mui/icons-material/Code';
+import hero from 'assets/heroicon.png';
+import Topics from 'component/Topics';
+import BottomNavbar from 'component/BottomNavbar';
+import Navbar from 'component/Navbar';
+import CustomDataGrid from 'component';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const navigate=useNavigate();
+
   const columns = [
     { 
       field: 'status', 
@@ -129,6 +130,7 @@ const Home = () => {
  const handleRowClick=(params)=>{
   navigate(`/problem`);
  }
+ 
   return (
     <>
       <Navbar />
@@ -154,42 +156,7 @@ const Home = () => {
       <Box sx={{ padding: 2, my: 3, background: '#363636', color: 'white' }}>
         <Grid container spacing={2} sx={{background: '#363636', color: 'white' }}>
           <Grid item xs={12} sx={{background: '#363636', color: 'white' }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={5}
-              getRowClassName={(params) =>
-                params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row'
-              }
-              onRowClick={handleRowClick}
-              sx={{
-                // Styles for the DataGrid component
-                '& .MuiDataGrid-root': {
-                  backgroundColor: '#1d1d1d', 
-                },
-                '& .MuiDataGrid-cell': {
-                  color: '#ffffff', // Text color for cells
-                },
-                '& .MuiDataGrid-columnHeader': {
-                  backgroundColor: '#333333', // Background color for column headers
-                  color: '#ffffff', // Text color for column headers
-                },
-                '& .MuiDataGrid-row.even-row': {
-                  backgroundColor: '#2c2c2c', // Background color for even rows
-                },
-                '& .MuiDataGrid-row.odd-row': {
-                  backgroundColor: '#1d1d1d', // Background color for odd rows
-                },
-                '& .MuiDataGrid-footerContainer': {
-                  backgroundColor: '#333333', // Background color for the footer
-                  color: '#ffffff', // Text color for the footer
-                },
-                '& .MuiDataGrid-toolbarContainer': {
-                  backgroundColor: '#333333', // Background color for the toolbar
-                  color: '#ffffff', // Text color for the toolbar
-                },
-              }}
-            />
+            
           </Grid>
         </Grid>
       </Box>
