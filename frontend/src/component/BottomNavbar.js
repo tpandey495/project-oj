@@ -9,13 +9,13 @@ function Footer() {
     <Box sx={{  display: "flex", justifyContent: "space-between", alignItems: "center", padding: '10px  30px' , boxShadow:"0px 0px 2px 0px gray",background: '#363636',color:'white'}}>
       <Box sx={{ display: "flex", justifyContent: "center", flexGrow: 1 }}>
         <Button variant="text" color="primary" to='' component={Link}>
-          <Avatar src={Github} sx={{ height: '30px', width: '30px' }} />
+          <Avatar src={Github} sx={{ height: '30px', width: '30px',color:'#fff' }} />
         </Button>
         <Button variant="text" color="primary">
-          <Avatar src={LinkedIN} sx={{ height: '30px', width: '30px' }} />
+          <Avatar src={LinkedIN} sx={{ height: '30px', width: '30px',color:'#fff' }} />
         </Button>
         <Button variant="text" color="primary">
-          <Avatar src={hashnode} sx={{ height: '30px', width: '30px' }} />
+          <Avatar src={hashnode} sx={{ height: '30px', width: '30px',color:'#fff' }} />
         </Button>
       </Box>
       

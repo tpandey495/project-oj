@@ -4,7 +4,22 @@ import Home from './pages/Home/Home';
 import Editor from './pages/Editor/problem';
 import Register from './pages/Register';
 
-function App() {
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Root />,
+//     loader: rootLoader,
+//     children: [
+//       {
+//         path: "team",
+//         element: <Team />,
+//         loader: teamLoader,
+//       },
+//     ],
+//   },
+// ]);
+
+const App=()=>{
   return (
     <>
       <Router>
@@ -12,6 +27,7 @@ function App() {
            <Route path="/" element={<Home />} />
            <Route path='/problem' element={<Editor />} />
            <Route path='/register' element={<Register />} />
+           <Route path='/login' element={<Register />} />
         </Routes>
       </Router>
     </>

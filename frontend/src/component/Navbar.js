@@ -1,8 +1,10 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate=useNavigate();
   return (
     <AppBar
       position="static"
@@ -35,7 +37,8 @@ const Navbar = () => {
                 <Button sx={{ color: '#FFFFFF' }} component={Link} to="/Discuss">discuss</Button>
               </Box>
               <Box>
-                <Button sx={{ color: '#FFFFFF' }} component={Link} to="/login">Login</Button>
+                <Button sx={{ color: '#FFFFFF' }} component={Link} to="/login"onClick={navigate("/login")}>Login</Button>
+                <Button sx={{ color: '#FFFFFF' }} component={Link} to="/login"onClick={navigate("/login")}>Register</Button>
               </Box>
             </Box>
           </Grid>
