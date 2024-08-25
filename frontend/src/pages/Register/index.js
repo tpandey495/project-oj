@@ -3,10 +3,23 @@ import { Box } from '@mui/material';
 import Button from 'component/Button';
 import RegisterFeatures from 'component/Features';
 import CustomInput from 'component/TextBox';
-import Navbar from 'component/Navbar';
-import BottomNavbar from 'component/BottomNavbar';
+import CustomDate from 'component/DatePicker';
 import { useRegisterUserMutation } from 'features/api/apiSlice';
 import './register.css';
+
+
+const Message = ({ isLoading, isError, isSuccess, error }) => {
+  console.log(error);
+  return (
+    <>
+      {isLoading && <div>Registering</div>}
+      {isError && <div>{error?.data?.errors.map((item) =>
+        <p>{item?.mesg}</p>
+      )}</div>}
+      {isSuccess && <div>successfully Register.Please Login to Continue.</div>}
+    </>
+  )
+}
 
 const Registration = () => {
   const [userRegistration, setUserRegistration] = useState({
@@ -69,7 +82,8 @@ const Registration = () => {
             {/* Login with Google component */}
             {/* Or separator */}
             <p>-------------------------------or-------------------------------</p>
-            <p className="registration-error">check</p>
+            <Message isLoading={isLoading} isError={isError}
+              isSuccess={isSuccess} error={error} />
           </Box>
           <form onSubmit={handleSubmit}>
             <Box className="user-name">
@@ -92,7 +106,7 @@ const Registration = () => {
                 type='text'
                 autoComplete='off'
                 value={userRegistration.lName}
-                onChange={handleInput}
+                onChange={handleInput}proname
                 name='lName'
                 id='lName'
                 width="140px"
@@ -114,18 +128,11 @@ const Registration = () => {
                 height="40px"
                 placeholder="Enter Email Id"
               />
-              <CustomInput
-                labelFor='proname'
-                labelText='Profession'
-                type='text'
-                autoComplete='off'
-                value={userRegistration.proname}
+              <CustomDate
+                label="Date of Birth"
+                name="dob"
+                value={userRegistration?.dob}
                 onChange={handleInput}
-                name='proname'
-                id='proname'
-                width="305px"
-                height="40px"
-                placeholder="Enter Profession e.g. Student"
               />
               <CustomInput
                 labelFor='password'
@@ -159,7 +166,6 @@ const Registration = () => {
           </form>
         </Box>
       </Box>
-      {/* <BottomNavbar /> */}
     </>
   );
 };

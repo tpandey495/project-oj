@@ -2,11 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }), 
+  baseQuery: fetchBaseQuery({ baseUrl:process.env.REACT_APP_BASE_URL}), 
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (userData) => ({
-        url: '/register', 
+        url: '/users/signup', 
         method: 'POST',
         body: userData,
       }),

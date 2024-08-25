@@ -1,35 +1,44 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home/Home';
-import Editor from './pages/Editor/problem';
+import Practice from './pages/Practice'
 import Register from './pages/Register';
+import Login from './pages/Login';
+import MainLayout from './layout/MainLayout';
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Root />,
-//     loader: rootLoader,
-//     children: [
-//       {
-//         path: "team",
-//         element: <Team />,
-//         loader: teamLoader,
-//       },
-//     ],
-//   },
-// ]);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        index:true,
+        element:<Home />
+      },
+      {
+        path:'problems',
+        element:<Home />
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path:"register",
+        element:<Register />
+      }
+    ],
+  },
+  {
+    path:"/practice/:id",
+    element:<Practice />
+  }
+]);
 
 const App=()=>{
   return (
     <>
-      <Router>
-        <Routes>
-           <Route path="/" element={<Home />} />
-           <Route path='/problem' element={<Editor />} />
-           <Route path='/register' element={<Register />} />
-           <Route path='/login' element={<Register />} />
-        </Routes>
-      </Router>
+      <RouterProvider router={router} />
     </>
   );
 }
