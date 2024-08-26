@@ -4,7 +4,7 @@ import Button from 'component/Button';
 import RegisterFeatures from 'component/Features';
 import CustomInput from 'component/TextBox';
 import CustomDate from 'component/DatePicker';
-import { useRegisterUserMutation } from 'features/api/apiSlice';
+import { useRegisterUserMutation } from 'services/api/userApi';
 import './register.css';
 
 

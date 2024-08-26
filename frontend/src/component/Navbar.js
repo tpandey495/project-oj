@@ -1,10 +1,12 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useSelector,useDispatch } from 'react-redux';
+import {logout} from 'services/authSlice';
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  const dispatch=useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <AppBar
       position="static"
@@ -36,12 +38,23 @@ const Navbar = () => {
                 <Button sx={{ color: '#FFFFFF' }} component={Link} to="/discuss">Discuss</Button>
               </Box>
               <Box>
-                <Button sx={{ color: '#FFFFFF' }} component={Link} to="/login">Login</Button>
-                <Button sx={{ color: '#FFFFFF' }} component={Link} to="/register">Register</Button>
+                {
+                !isLoggedIn &&
+                  <>
+                    <Button sx={{ color: '#FFFFFF' }} component={Link} to="/login">Login</Button>
+                    <Button sx={{ color: '#FFFFFF' }} component={Link} to="/register">Register</Button>
+                  </>
+                }
+                {
+                 isLoggedIn &&
+                  <>
+                    <Button sx={{ color: '#FFFFFF' }} component={Link} to="/profile">Profile</Button>
+                    <Button sx={{ color: '#FFFFFF' }} onClick={()=>dispatch(logout())}>Logout</Button>
+                  </>
+                }
               </Box>
             </Box>
           </Grid>
-
         </Grid>
       </Toolbar>
     </AppBar>
