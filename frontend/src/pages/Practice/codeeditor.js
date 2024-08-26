@@ -4,26 +4,25 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
-import axios from 'axios';
 import { Container, Tab, Box, Typography, TextareaAutosize, Button, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import { useCodeRunMutation } from 'services/api/compileApi';
+
 
 const StyledEditorContainer = styled(Paper)(({ theme }) => ({
   height: '100%',
   overflowY: 'auto',
   width: '100%',
-  padding: theme.spacing(2),
-  //backgroundColor: theme.palette.background.paper,
+  padding: theme.spacing(2)
 }));
 
 const StyledOutputContainer = styled(Paper)(({ theme }) => ({
   height: '150px',
   overflowY: 'auto',
-  padding: theme.spacing(2),
-  //backgroundColor: theme.palette.background.Paper,
+  padding: theme.spacing(2)
 }));
 
 const App = () => {
@@ -45,6 +44,10 @@ const App = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [value, setValue] = useState("1");
+  
+  const [codeRun, { isLoading, isError, data }] = useCodeRunMutation();
+
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -56,15 +59,8 @@ const App = () => {
       code,
       input
     };
-    console.log(payload);
     try {
-      const { data } = await axios.post('http://localhost:9000/api/problems/run', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'authorization': '', // Example header
-         
-        },
-      });
+      const data=await codeRun(payload).unwrap();
       console.log(data);
       setOutput(data.output);
       setValue('2');
