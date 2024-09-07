@@ -1,3 +1,4 @@
+import { Cookie } from '@mui/icons-material';
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 import {jwtDecode} from 'jwt-decode';
@@ -29,8 +30,8 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setLogin(state, action) {
-      console.log("hello2");
       state.isLoggedIn = true;
+      Cookie.set();
       state.user = action.payload; 
     },
     logout(state) {

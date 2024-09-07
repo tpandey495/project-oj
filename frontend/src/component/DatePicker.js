@@ -16,11 +16,14 @@ const DateComponent = ({ label, value, onChange, name, ...props }) => {
     });
   };
 
+  // Ensure value is a dayjs object or null
+  const dayjsValue = value ? dayjs(value, 'YYYY-MM-DD') : null;
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         label={label}
-        value={value}
+        value={dayjsValue}
         onChange={handleChange}
         renderInput={(params) => <TextField {...params} />}
         {...props}
