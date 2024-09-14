@@ -7,7 +7,6 @@ import CustomDate from 'component/DatePicker';
 import { useRegisterUserMutation } from 'services/api/userApi';
 import './register.css';
 
-
 const Message = ({ isLoading, isError, isSuccess, error }) => {
   console.log(error);
   return (
@@ -16,19 +15,19 @@ const Message = ({ isLoading, isError, isSuccess, error }) => {
       {isError && <div>{error?.data?.errors.map((item) =>
         <p>{item?.mesg}</p>
       )}</div>}
-      {isSuccess && <div>successfully Register.Please Login to Continue.</div>}
+      {isSuccess && <div>Successfully registered. Please login to continue.</div>}
     </>
-  )
-}
+  );
+};
 
 const Registration = () => {
   const [userRegistration, setUserRegistration] = useState({
-    fName: "",
-    lName: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    proname: "",
     password: "",
-    confirmpassword: ""
+    confirmPassword: "",
+    dob: ""
   });
 
   const [registerUser, { isLoading, isError, isSuccess, error }] = useRegisterUserMutation();
@@ -43,19 +42,19 @@ const Registration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (userRegistration.password !== userRegistration.confirmpassword) {
+    if (userRegistration.password !== userRegistration.confirmPassword) {
       alert('Passwords do not match');
       return;
     }
     try {
       await registerUser(userRegistration).unwrap();
       setUserRegistration({
-        fName: "",
-        lName: "",
+        firstName: "",
+        lastName: "",
         email: "",
-        proname: "",
         password: "",
-        confirmpassword: ""
+        confirmPassword: "",
+        dob: ""
       });
       alert('Registration successful');
     } catch (err) {
@@ -65,7 +64,6 @@ const Registration = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
       <Box className="registration">
         <Box className="registration-about">
           <h1>Unlock your free account to begin practicing and master your skills.</h1>
@@ -79,8 +77,6 @@ const Registration = () => {
         <Box className="registration-form">
           <Box className="registration-content">
             <h3>Get started with</h3>
-            {/* Login with Google component */}
-            {/* Or separator */}
             <p>-------------------------------or-------------------------------</p>
             <Message isLoading={isLoading} isError={isError}
               isSuccess={isSuccess} error={error} />
@@ -88,27 +84,27 @@ const Registration = () => {
           <form onSubmit={handleSubmit}>
             <Box className="user-name">
               <CustomInput
-                labelFor='fName'
+                labelFor='firstName'
                 labelText='First Name'
                 type='text'
                 autoComplete='off'
-                value={userRegistration.fName}
+                value={userRegistration.firstName}
                 onChange={handleInput}
-                name='fName'
-                id='fName'
+                name='firstName'
+                id='firstName'
                 width="140px"
                 height="40px"
                 placeholder="Enter First Name"
               />
               <CustomInput
-                labelFor='lName'
+                labelFor='lastName'
                 labelText='Last Name'
                 type='text'
                 autoComplete='off'
-                value={userRegistration.lName}
-                onChange={handleInput}proname
-                name='lName'
-                id='lName'
+                value={userRegistration.lastName}
+                onChange={handleInput}
+                name='lastName'
+                id='lastName'
                 width="140px"
                 height="40px"
                 placeholder="Enter Last Name"
@@ -131,7 +127,7 @@ const Registration = () => {
               <CustomDate
                 label="Date of Birth"
                 name="dob"
-                value={userRegistration?.dob}
+                value={userRegistration.dob}
                 onChange={handleInput}
               />
               <CustomInput
@@ -148,19 +144,18 @@ const Registration = () => {
                 placeholder="Enter Password"
               />
               <CustomInput
-                labelFor='confirmpassword'
+                labelFor='confirmPassword'
                 labelText='Confirm Password'
                 type='password'
                 autoComplete='off'
-                value={userRegistration.confirmpassword}
+                value={userRegistration.confirmPassword}
                 onChange={handleInput}
-                name='confirmpassword'
-                id='confirmpassword'
+                name='confirmPassword'
+                id='confirmPassword'
                 width="305px"
                 height="40px"
                 placeholder="Confirm Password"
               />
-              {/* Submit button */}
               <Button type='submit' width="80px" className="regi-submit">Register</Button>
             </Box>
           </form>
