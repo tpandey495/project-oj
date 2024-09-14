@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+service Compiler {
+  rpc Run (RunRequest) returns (RunResponse);
+  rpc Submit (SubmitRequest) returns (SubmitResponse);
+}
+
+message RunRequest {
+  string code = 1;
+  string input = 2;
+}
+
+message RunResponse {
+  string output = 1;
+  string error = 2;
+}
+
+message SubmitRequest {
+  string code = 1;
+  repeated string testCases = 2;
+}
+
+message SubmitResponse {
+  repeated bool results = 1;
+}
