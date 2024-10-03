@@ -1,6 +1,6 @@
 import { Box, Button, Avatar, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Github from '../assets/github.png'; // Replace with your actual image paths
+import Github from '../assets/github.png'; 
 import LinkedIN from '../assets/linkedin (2).png';
 import hashnode from '../assets/hashnode.png';
 
