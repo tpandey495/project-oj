@@ -8,18 +8,18 @@ service Compiler {
 
 message CodeRequest {
   string code = 1;  
-  string input = 2;
+  string input = 2; 
 }
 
 
 message CodeResponse {
-  string output = 1;  
+  string output = 1; 
   string error = 2;   
 }
 
 
 message TestRequest {
-  string code = 1;           
+  string code = 1;          
   repeated string testCases = 2;  
 }
 

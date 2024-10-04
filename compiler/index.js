@@ -19,6 +19,7 @@ const server = new grpc.Server();
 
 
 const runCode = (call, callback) => {
+    console.log('hello');
     const code = call.request.code;
     const input = call.request.input;
     fs.writeFileSync('code.cpp', code);
