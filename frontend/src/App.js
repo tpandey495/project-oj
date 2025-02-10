@@ -47,7 +47,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/practice/:id",
-    element: <ProtectedRoute element={<Practice />} /> 
+    element: <Practice />
   }
 ]);
 

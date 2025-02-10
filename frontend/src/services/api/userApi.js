@@ -18,7 +18,6 @@ export const userApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log("check",data?.content?.meta?.token);
           document.cookie = `token=${data?.content?.meta?.token}; path=/;`;
           console.log(data); 
         } catch (error) {

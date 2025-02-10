@@ -13,8 +13,13 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm install -g sequelize-cli
+
 COPY . .
 
 EXPOSE 9000
 
-CMD [ "node", "index.js" ]
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+ENTRYPOINT ["start.sh"]

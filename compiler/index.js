@@ -66,7 +66,7 @@ function getExpectedOutput(index) {
     return 'Expected Output';
 }
 
-console.log(compilerService);
+
 
 server.addService(compilerService.service, {
     runCode: runCode,

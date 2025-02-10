@@ -15,7 +15,7 @@ const compilerService = protoDescriptor.Compiler;
 
 const client = new compilerService('localhost:50051', grpc.credentials.createInsecure());
 
-exports.submission = async (req, res) => {
+exports.run = async (req, res) => {
   try {
     const { code, language, input } = req.body;
     if (!code || !language || !input) {

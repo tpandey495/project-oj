@@ -1,8 +1,4 @@
-const { exec } = require('child_process');
-const fs = require('fs').promises;
-const { v4: uuidv4 } = require('uuid');
 const { Problem } = require('../database/models');
-const { createFile } = require('../utils/createFile');
 const { sendErrorResponse, sendSuccessResponse } = require('../utils/response');
 
 
@@ -47,57 +43,9 @@ exports.getProblems = async (req, res) => {
   }
 };
 
-const execPromise = (command) => {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject({ stderr });
-      } else {
-        resolve({ stdout, stderr });
-      }
-    });
-  });
-};
 
 
-// exports.submission = async (req, res) => {
-//   const { code, language, input } = req.body;
 
-//   if (!code || !language || !input) {
-//     return sendErrorResponse(res, 400, 'Missing code, language, or input');
-//   }
 
-//   try {
-//     if (language === 'cpp') {
-//       const file = uuidv4();
-//       const codeFilePath = await createFile('code', file, '.cpp');
-//       const inputFilePath = await createFile('input', file, '.txt');
-//       const executableName = await createFile('output', file, '.out');
-
-//       await fs.writeFile(codeFilePath, code);
-//       await fs.writeFile(inputFilePath, input);
-
-//       try {
-//         await execPromise(`g++ ${codeFilePath} -o ${executableName}`);
-//       } catch (compileError) {
-//         return sendErrorResponse(res, 500, 'Compilation error: ' + compileError.stderr);
-//       }
-
-//       try {
-//         const { stdout, stderr } = await execPromise(`${executableName} < ${inputFilePath}`);
-//         if (stderr) {
-//           return sendErrorResponse(res, 500, 'Runtime error: ' + stderr);
-//         }
-//         return res.status(200).json({ message: 'Code executed successfully', output: stdout });
-//       } catch (runError) {
-//         return sendErrorResponse(res, 500, 'Execution error: ' + runError.stderr);
-//       }
-//     } else {
-//       return sendErrorResponse(res, 400, 'Unsupported language');
-//     }
-//   } catch (error) {
-//     return sendErrorResponse(res, 500, 'Server error: ' + error.message);
-//   }
-// };
 
 
