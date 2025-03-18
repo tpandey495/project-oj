@@ -1,14 +1,15 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from 'pages/Home/Home';
-import Practice from 'pages/Practice';
-import Register from 'pages/Register';
-import Login from 'pages/Login';
-import Contest from 'pages/Contest';
-import Discuss from 'pages/Discuss';
-import Profile from 'pages/Profile';
-import MainLayout from 'layout/MainLayout';
-import ProtectedRoute from 'component/ProtectedRoute'; 
-import './App.css';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "pages/Home/Home";
+import Practice from "pages/Practice";
+import Register from "pages/Register";
+import Login from "pages/Login";
+import Contest from "pages/Contest";
+import Discuss from "pages/Discuss";
+import Profile from "pages/Profile";
+import MainLayout from "layout/MainLayout";
+import ProtectedRoute from "component/ProtectedRoute";
+import DomainsPage from "pages/Domains/DomainsPage";
+import "./App.css";
 
 const router = createBrowserRouter([
   {
@@ -17,19 +18,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Home />,
       },
       {
-        path: 'problems',
-        element:<Home /> 
+        path: "problems",
+        element: <Home />,
       },
       {
-        path: 'contest',
-        element: <ProtectedRoute element={<Contest />} /> 
+        path: "contest",
+        element: <ProtectedRoute element={<Contest />} />,
       },
       {
-        path: 'discuss',
-        element: <ProtectedRoute element={<Discuss />} /> 
+        path: "discuss",
+        element: <ProtectedRoute element={<Discuss />} />,
       },
       {
         path: "login",
@@ -37,18 +38,22 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register />
+        element: <Register />,
       },
       {
-        path:"profile",
-        element:<ProtectedRoute element={<Profile />} /> 
-      }
+        path: "profile",
+        element: <ProtectedRoute element={<Profile />} />,
+      },
+      {
+        path: "domains/:id",
+        element: <ProtectedRoute element={<DomainsPage />} />,
+      },
     ],
   },
   {
     path: "/practice/:id",
-    element: <ProtectedRoute element={<Practice />} /> 
-  }
+    element: <ProtectedRoute element={<Practice />} />,
+  },
 ]);
 
 const App = () => {
@@ -57,6 +62,6 @@ const App = () => {
       <RouterProvider router={router} />
     </>
   );
-}
+};
 
 export default App;
