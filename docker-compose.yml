@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend-service:
+    build: ./backend
+    container_name: backend-service
+    ports:
+      - "9000:9000"
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres_db:5432/mydb
+    env_file:
+      - ./backend/.env
+
+    depends_on:
+      - postgres_db
+
+  compiler-service:
+    build: ./compiler
+    container_name: compiler-service
+    ports:
+      - "5051:5051"
+
+  postgres_db:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -44,3 +44,20 @@ exports.run = async (req, res) => {
   }
 };
 
+
+// exports.submit=async (req,res)=>{
+//   try{
+//     const {code,language}=req.body;
+//     client.submitCode(grpcRequest,(error,response)=>{
+//         if(!error||!language||!input){
+//           return res.status(500).json({error:'Unsupported language'});
+//         }
+//         if(response){
+          
+//         }
+//     })
+//   }catch(errror){
+
+//   }
+
+// }
