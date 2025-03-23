@@ -9,16 +9,20 @@ import './register.css';
 
 const Message = ({ isLoading, isError, isSuccess, error }) => {
   console.log(error);
+  console.log('Error object:', error?.data?.errors); // For debugging
   return (
     <>
-      {isLoading && <div>Registering</div>}
-      {isError && <div>{error?.data?.errors.map((item) =>
-        <p>{item?.mesg}</p>
-      )}</div>}
+      {/* {isLoading && <div>Registering...</div>} */}
+      {console.log(isError)}
+      {isError && (
+            error.data.errors.map((item) => <p key={item}>{item?.mesg}</p>)
+          )
+        }
       {isSuccess && <div>Successfully registered. Please login to continue.</div>}
     </>
   );
 };
+
 
 const Registration = () => {
   const [userRegistration, setUserRegistration] = useState({
@@ -58,7 +62,7 @@ const Registration = () => {
       });
       alert('Registration successful');
     } catch (err) {
-      console.error('Registration failed', err);
+       console.log("Registration failed");
     }
   };
 

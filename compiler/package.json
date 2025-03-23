@@ -16,7 +16,6 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
-    "grpc": "^1.24.11",
     "nodemon": "^3.1.4"
   }
 }

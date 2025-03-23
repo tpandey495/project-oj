@@ -2,19 +2,18 @@ FROM node:18-alpine
 
 RUN apk update && apk add --no-cache \
     nodejs \
+    g++\
     npm \
-    g++ \
     make \
     bash
 
 WORKDIR /app
 
 COPY package*.json ./
-
 RUN npm install
+
+RUN npm install -g sequelize-cli
 
 COPY . .
 
-EXPOSE 9000
-
-CMD [ "node", "index.js" ]
+CMD ["sh", "-c", "sequelize db:migrate --env development && npm start"]
