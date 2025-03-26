@@ -19,7 +19,6 @@ const server = new grpc.Server();
 
 
 const runCode = (call, callback) => {
-    console.log('hello');
     const code = call.request.code;
     const input = call.request.input;
     fs.writeFileSync('code.cpp', code);
@@ -74,7 +73,7 @@ server.addService(compilerService.service, {
 });
 
 
-server.bindAsync('localhost:50051', grpc.ServerCredentials.createInsecure(), () => {
+server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
     console.log("Compiler service running on port 50051");
     server.start();
 });

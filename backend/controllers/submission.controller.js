@@ -13,7 +13,7 @@ const packageDefinition = protoLoader.loadSync('./proto/compiler.proto', {
 const protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 const compilerService = protoDescriptor.Compiler;
 
-const client = new compilerService('localhost:50051', grpc.credentials.createInsecure());
+const client = new compilerService('compiler-service:50051', grpc.credentials.createInsecure());
 
 exports.run = async (req, res) => {
   try {
