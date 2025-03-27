@@ -1,7 +1,3 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); 
-const Problem = require('./Problem'); 
-
 module.exports = (sequelize, DataTypes) => {
     const TestCase = sequelize.define('TestCase', {
         id: {
