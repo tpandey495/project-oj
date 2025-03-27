@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend-service:
     build: ./backend
@@ -12,6 +10,9 @@ services:
       - ./backend/.env
     depends_on:
       - postgres_db
+    volumes:
+      - ./backend/:/app
+      - /app/node_modules
     networks:
       - my-network  
 
@@ -20,6 +21,9 @@ services:
     container_name: compiler-service
     ports:
       - "50051:50051"
+    volumes:
+      - ./compiler:/app
+      - /app/node_modules
     networks:
       - my-network  
 
