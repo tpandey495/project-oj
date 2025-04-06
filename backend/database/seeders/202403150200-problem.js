@@ -3,6 +3,7 @@
 module.exports = {
   up: (queryInterface) => {
     return queryInterface.bulkInsert('Problems', [{
+      id:3,
       statement: "Given an array of integers, return the indices of the two numbers such that they add up to a specific target.",
       name: "Two Sum",
       difficulty: "Medium",

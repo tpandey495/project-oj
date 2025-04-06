@@ -16,4 +16,6 @@ RUN npm install -g sequelize-cli
 
 COPY . .
 
-CMD ["sh", "-c", "sequelize db:migrate --env development && npm start"]
+CMD ["sh", "-c", "sequelize db:migrate --env development && sequelize db:seed:all --env development && npm start"]
+
+

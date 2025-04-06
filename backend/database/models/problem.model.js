@@ -2,6 +2,11 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Problem = sequelize.define('Problem', {
+    id:{
+      type:DataTypes.INTEGER,
+      autoincrement:true,
+      primaryKey:true
+    },
     statement: {
       type: DataTypes.STRING,
       allowNull: false,
