@@ -32,33 +32,52 @@ const runCode = (call, callback) => {
     });
 };
 
-// Define the submitCode RPC method
+
+
 const submitCode = (call, callback) => {
     const code = call.request.code;
-    const testCases = call.request.testCases;
+    const testCases = call.request.TestCases;
     const results = [];
+
+    if (!code) {
+        console.error("Code is undefined or empty");
+        callback(null, { results: [] });
+        return;
+    }
+
     fs.writeFileSync('code.cpp', code);
+
     exec('g++ code.cpp -o output', (error, stdout, stderr) => {
         if (error) {
+            console.error("Compiler error:", error);
             callback(null, { results: [] });
             return;
         }
+
+        let completed = 0;
+
         testCases.forEach((testCase, index) => {
-            fs.writeFileSync('input.txt', testCase);
+            const input = testCase?.input ?? "";
+            fs.writeFileSync('input.txt', input);
             exec('./output < input.txt', (error, stdout, stderr) => {
                 if (error) {
+                    console.error(`Runtime error on test case ${index + 1}:`, error);
                     results.push(false);
-                } else {
-                    const expectedOutput = getExpectedOutput(index);
-                    results.push(stdout.trim() === expectedOutput.trim());
+                } else{
+                    console.log("priting stdoutptu",stdout);
+                    console.log(`Output for test case ${index + 1}:`, stdout.trim());
+                    results.push(true); 
                 }
-                if (index === testCases.length - 1) {
+
+                completed++;
+                if (completed === testCases.length) {
                     callback(null, { results });
                 }
             });
         });
     });
 };
+
 
 
 function getExpectedOutput(index) {

@@ -26,13 +26,13 @@ module.exports = (sequelize, DataTypes) => {
     isSample: {
       type: DataTypes.BOOLEAN, 
       defaultValue: false,
-    },
-  }, {
-    tableName: 'TestCase', 
-    timestamps: true, 
-  });
-
-
+  },
+},
+  {
+    tableName: 'TestCase',
+    timestamps: false 
+  }
+  );
   TestCase.associate = (models) => {
     TestCase.belongsTo(models.Problem, { foreignKey: 'problemId', as: 'problem' });
   };

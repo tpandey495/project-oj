@@ -5,24 +5,29 @@ service Compiler {
   rpc submitCode (TestRequest) returns (TestResponse);
 }
 
-
 message CodeRequest {
   string code = 1;  
   string input = 2; 
 }
-
 
 message CodeResponse {
   string output = 1; 
   string error = 2;   
 }
 
-
-message TestRequest {
-  string code = 1;          
-  repeated string testCases = 2;  
+message TestCase {
+  int32 id = 1;
+  int32 problemId = 2;
+  string input = 3;
+  string expectedOutput = 4;
+  bool isSample = 5;
 }
 
+
+message TestRequest {
+  string code = 1;
+  repeated TestCase TestCases = 2;
+}
 
 message TestResponse {
   repeated bool results = 1;  

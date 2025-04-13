@@ -1,6 +1,7 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const { v4: uuidv4 } = require('uuid');
+const { TestCase } = require('../database/models');
 
 const packageDefinition = protoLoader.loadSync('./proto/compiler.proto', {
   keepCase: true,
@@ -45,19 +46,45 @@ exports.run = async (req, res) => {
 };
 
 
-// exports.submit=async (req,res)=>{
-//   try{
-//     const {code,language}=req.body;
-//     client.submitCode(grpcRequest,(error,response)=>{
-//         if(!error||!language||!input){
-//           return res.status(500).json({error:'Unsupported language'});
-//         }
-//         if(response){
-          
-//         }
-//     })
-//   }catch(errror){
 
-//   }
 
-// }
+exports.submit = async (req, res) => {
+  try {
+    const { code, language, problemid } = req.body;
+
+    // Fetch all test cases for the problem
+    const testCases = await TestCase.findAll({
+      where: { problemId: problemid },
+      raw: true
+    });
+      
+    if (!testCases || testCases.length === 0) {
+      return res.status(404).json({ error: 'No test cases found for the given problem ID.' });
+    }
+
+    
+    if (language === 'cpp') {
+      const grpcRequest = {
+        code: code,
+        TestCases: testCases 
+      };
+
+      client.submitCode(grpcRequest, (error, response) => {
+        if (error) {
+          console.error("gRPC error:", error);
+          return res.status(500).json({ error: 'gRPC error: ' + error.message });
+        }
+
+        return res.json({
+          results: response.results
+        });
+      });
+    } else {
+      return res.status(400).json({ error: 'Unsupported language' });
+    }
+
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return res.status(500).json({ error: 'Unexpected server error: ' + err.message });
+  }
+};
