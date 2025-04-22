@@ -1,6 +1,12 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowsProp, GridEventListener } from '@mui/x-data-grid';
 
-const CustomDataGrid = ({rows,columns,handleRowClick}) => {
+interface CustomDataGridProps {
+    rows: GridRowsProp;
+    columns: GridColDef[];
+    handleRowClick?: GridEventListener<'rowClick'>;
+}
+
+const CustomDataGrid: React.FC<CustomDataGridProps> = ({ rows, columns, handleRowClick }) => {
     return (
         <DataGrid
             rows={rows}
@@ -15,29 +21,29 @@ const CustomDataGrid = ({rows,columns,handleRowClick}) => {
                     backgroundColor: '#1d1d1d',
                 },
                 '& .MuiDataGrid-cell': {
-                    color: '#ffffff', 
+                    color: '#ffffff',
                 },
                 '& .MuiDataGrid-columnHeader': {
-                    backgroundColor: '#333333', 
-                    color: '#ffffff', 
+                    backgroundColor: '#333333',
+                    color: '#ffffff',
                 },
                 '& .MuiDataGrid-row.even-row': {
-                    backgroundColor: '#2c2c2c', 
+                    backgroundColor: '#2c2c2c',
                 },
                 '& .MuiDataGrid-row.odd-row': {
-                    backgroundColor: '#1d1d1d', 
+                    backgroundColor: '#1d1d1d',
                 },
                 '& .MuiDataGrid-footerContainer': {
-                    backgroundColor: '#333333', 
-                    color: '#ffffff', 
+                    backgroundColor: '#333333',
+                    color: '#ffffff',
                 },
                 '& .MuiDataGrid-toolbarContainer': {
-                    backgroundColor: '#333333', 
-                    color: '#ffffff', 
+                    backgroundColor: '#333333',
+                    color: '#ffffff',
                 },
             }}
         />
-    )
-}
+    );
+};
 
 export default CustomDataGrid;
