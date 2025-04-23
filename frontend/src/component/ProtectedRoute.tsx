@@ -1,11 +1,18 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { store } from "../store"; // adjust path as needed
 
-const ProtectedRoute = ({ element }) => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+interface ProtectedRouteProps {
+  element: React.ReactElement;
+}
 
-  return !isLoggedIn ? element : <Navigate to="/login" />;
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
+  const isLoggedIn = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.auth.isAuthenticated
+  );
+
+  return isLoggedIn ? element : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

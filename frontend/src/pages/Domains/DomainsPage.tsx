@@ -14,18 +14,38 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
+// Types for each category key
+type CategoryKey = "type" | "difficulty" | "subdomains";
+
+// Type structure for filters
+type FilterOptions = {
+  type: { mcq: boolean; practice: boolean };
+  difficulty: { easy: boolean; medium: boolean; hard: boolean };
+  subdomains: { cpp: boolean; javascript: boolean; python: boolean };
+};
+
 function DomainsPage() {
   const { id } = useParams();
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<FilterOptions>({
     type: { mcq: false, practice: false },
     difficulty: { easy: false, medium: false, hard: false },
     subdomains: { cpp: false, javascript: false, python: false },
   });
 
-  const handleFilterChange = (category, key) => {
+  // Typed filter handler
+  const handleFilterChange = <
+    T extends CategoryKey,
+    K extends keyof FilterOptions[T]
+  >(
+    category: T,
+    key: K
+  ) => {
     setFilters((prev) => ({
       ...prev,
-      [category]: { ...prev[category], [key]: !prev[category][key] },
+      [category]: {
+        ...prev[category],
+        [key]: !prev[category][key],
+      },
     }));
   };
 
@@ -106,8 +126,8 @@ function DomainsPage() {
         sx={{
           minWidth: "250px",
           position: "sticky",
-          top: "0px", // Adjust top spacing
-          height: "100vh", // Ensure it fills the viewport height
+          top: "0px",
+          height: "100vh",
           overflowY: "auto",
         }}
       >
@@ -146,6 +166,7 @@ function DomainsPage() {
                 />
               </FormGroup>
             </FormControl>
+
             {/* Difficulty Filter */}
             <FormControl component="fieldset" sx={{ marginTop: 2 }}>
               <Typography variant="subtitle1">Difficulty</Typography>
@@ -181,6 +202,7 @@ function DomainsPage() {
                 />
               </FormGroup>
             </FormControl>
+
             {/* Subdomains Filter */}
             <FormControl component="fieldset" sx={{ marginTop: 2 }}>
               <Typography variant="subtitle1">Subdomains</Typography>

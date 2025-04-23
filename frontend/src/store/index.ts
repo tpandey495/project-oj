@@ -3,7 +3,7 @@ import { apiSlice } from '../services/api/apiSlice';
 import authReducer from '../services/authSlice';
 
 
-export const store = configureStore({
+export  const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,

@@ -7,6 +7,9 @@ import CustomDate from "../../component/DatePicker";
 import { useRegisterUserMutation } from "../../services/api/userApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import "./register.css";
+// import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { SerializedError } from "@reduxjs/toolkit";
+
 
 interface UserRegistration {
   firstName: string;
@@ -31,7 +34,7 @@ interface MessageProps {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  error: FetchBaseQueryError | APIError | undefined;
+  error: FetchBaseQueryError | SerializedError | APIError | undefined;
 }
 
 const Message: React.FC<MessageProps> = ({
@@ -41,13 +44,13 @@ const Message: React.FC<MessageProps> = ({
   error,
 }) => {
   const customError = error as FetchBaseQueryError;
-
+  const customApiError = error as APIError;
   return (
     <>
       {isError &&
-        Array.isArray(customError?.data?.errors) &&
-        customError.data.errors.map((item, index) => (
-          <p key={index}>{item?.mesg}</p>
+        Array.isArray(customApiError?.data?.errors) &&
+        customApiError.data.errors.map((item: ErrorItem, index: number) => (
+          <p key={index}>{item.mesg}</p>
         ))}
       {isSuccess && (
         <div>Successfully registered. Please login to continue.</div>
@@ -86,7 +89,10 @@ const Registration: React.FC = () => {
     }
 
     try {
-      await registerUser(userRegistration).unwrap();
+      await registerUser({
+        ...userRegistration,
+        name: `${userRegistration.firstName} ${userRegistration.lastName}`,
+      }).unwrap();
       setUserRegistration({
         firstName: "",
         lastName: "",
