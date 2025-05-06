@@ -26,7 +26,7 @@ import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import ChatIcon from "@mui/icons-material/Chat";
-import Editor from './codeeditor';
+import Editor from "./codeeditor";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -39,7 +39,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 const LabTabs = React.memo(() => {
   const [value, setValue] = useState("1");
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
@@ -56,8 +56,8 @@ const LabTabs = React.memo(() => {
         overflow: "hidden",
         position: "fixed",
         padding: "15px",
-      }}>
-
+      }}
+    >
       <Grid item xs={6} md={6}>
         <Paper
           sx={{
@@ -213,7 +213,7 @@ const LabTabs = React.memo(() => {
                   <Typography variant="body1">
                     <strong>Explanation:</strong> You can either: <br /> Delete
                     the characters at 0-indexed positions 2 and 6{" "}
-                    <code>("aababbab"  "aaabbb")</code> , or <br />
+                    <code>("aababbab" "aaabbb")</code> , or <br />
                     Delete the characters at 0-indexed positions 3 and 6
                     <code>("aababbab" "aabbbb").</code>
                   </Typography>
@@ -276,7 +276,7 @@ const LabTabs = React.memo(() => {
                     }}
                   >
                     <AccordionSummary
-                      expandIcon={<ExpandMoreIcon color="white" />}
+                      expandIcon={<ExpandMoreIcon color="inherit" />}
                       aria-controls="panel1-content"
                       id="panel1-header"
                     >
@@ -314,7 +314,7 @@ const LabTabs = React.memo(() => {
                     }}
                   >
                     <AccordionSummary
-                      expandIcon={<ExpandMoreIcon color="white" />}
+                      expandIcon={<ExpandMoreIcon color="inherit" />}
                       aria-controls="panel3-content"
                       id="panel3-header"
                     >
@@ -334,7 +334,7 @@ const LabTabs = React.memo(() => {
                     }}
                   >
                     <AccordionSummary
-                      expandIcon={<ExpandMoreIcon color="white" />}
+                      expandIcon={<ExpandMoreIcon color="inherit" />}
                       aria-controls="panel2-content"
                       id="panel2-header"
                     >
@@ -355,7 +355,7 @@ const LabTabs = React.memo(() => {
                     }}
                   >
                     <AccordionSummary
-                      expandIcon={<ExpandMoreIcon color="white" />}
+                      expandIcon={<ExpandMoreIcon color="inherit" />}
                       aria-controls="panel3-content"
                       id="panel3-header"
                     >
@@ -376,7 +376,7 @@ const LabTabs = React.memo(() => {
                     }}
                   >
                     <AccordionSummary
-                      expandIcon={<ExpandMoreIcon color="white" />}
+                      expandIcon={<ExpandMoreIcon color="inherit" />}
                       aria-controls="panel3-content"
                       id="panel3-header"
                     >
@@ -403,7 +403,7 @@ const LabTabs = React.memo(() => {
                     }}
                   >
                     <AccordionSummary
-                      expandIcon={<ExpandMoreIcon color="white" />}
+                      expandIcon={<ExpandMoreIcon color="inherit" />}
                       aria-controls="panel3-content"
                       id="panel3-header"
                     >
@@ -430,7 +430,7 @@ const LabTabs = React.memo(() => {
         <StyledPaper
           sx={{ height: "100%", background: "#262626", color: "#fff" }}
         >
-            <Editor />
+          <Editor />
         </StyledPaper>
       </Grid>
     </Grid>

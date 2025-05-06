@@ -1,27 +1,35 @@
-import React, { useState } from 'react';
-import Editor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism.css';
-import axios from 'axios';
-import { Container, Tab, Box, Typography, TextareaAutosize, Button, Paper } from '@mui/material';
-import { styled } from '@mui/system';
+import React, { useState } from "react";
+import Editor from "react-simple-code-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/themes/prism.css";
+import axios from "axios";
+import {
+  Container,
+  Tab,
+  Box,
+  Typography,
+  TextareaAutosize,
+  Button,
+  Paper,
+} from "@mui/material";
+import { styled } from "@mui/system";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 const StyledEditorContainer = styled(Paper)(({ theme }) => ({
-  height: '100%',
-  overflowY: 'auto',
-  width: '100%',
+  height: "100%",
+  overflowY: "auto",
+  width: "100%",
   padding: theme.spacing(2),
   //backgroundColor: theme.palette.background.paper,
 }));
 
 const StyledOutputContainer = styled(Paper)(({ theme }) => ({
-  height: '150px',
-  overflowY: 'auto',
+  height: "150px",
+  overflowY: "auto",
   padding: theme.spacing(2),
   //backgroundColor: theme.palette.background.Paper,
 }));
@@ -42,67 +50,71 @@ const App = () => {
         // Return 0 to indicate successful execution
         return 0;  
     }`);
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
   const [value, setValue] = useState("1");
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
-  const handleSubmit = async () => {
-    const payload = {
-      language: 'cpp',
-      code,
-      input
-    };
-    console.log(payload);
-    try {
-      const { data } = await axios.post('http://localhost:9000/api/problems/run', payload, {
+const handleSubmit = async () => {
+  const payload = {
+    language: "cpp",
+    code,
+    input,
+  };
+  console.log(payload);
+  try {
+    const { data } = await axios.post(
+      "http://localhost:9000/api/problems/run",
+      payload,
+      {
         headers: {
-          'Content-Type': 'application/json',
-          'authorization': '', // Example header
-         
+          "Content-Type": "application/json",
+          authorization: "", // Provide token if needed
         },
-      });
-      console.log(data);
-      setOutput(data.output);
-      setValue('2');
-    } catch (error) {
-      console.log(error.response);
+      }
+    );
+    console.log(data);
+    setOutput(data.output);
+    setValue("2");
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error.response?.data);
+    } else {
+      console.log("An unexpected error occurred:", error);
     }
   }
+};
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography>Code</Typography>
       <Box display="flex" flexDirection="column" gap={4}>
         {/* Left side: Compiler editor */}
-        <Box flex={1} sx={{ paddingRight: "30px", height: '80%' }}>
+        <Box flex={1} sx={{ paddingRight: "30px", height: "80%" }}>
           <StyledEditorContainer>
             <Editor
               value={code}
               onValueChange={setCode}
-              highlight={code => highlight(code, languages.js)}
+              highlight={(code) => highlight(code, languages.js)}
               padding={10}
               style={{
                 fontFamily: '"Fira code", "Fira Mono", monospace',
-                fontSize: '0.75rem',
-                outline: 'none',
-                border: 'none',
-                backgroundColor: '#f7fafc',
-                height: '100%',
-                overflowY: 'auto',
+                fontSize: "0.75rem",
+                outline: "none",
+                border: "none",
+                backgroundColor: "#f7fafc",
+                height: "100%",
+                overflowY: "auto",
               }}
             />
           </StyledEditorContainer>
-
         </Box>
 
         {/* Right side: Input and Output */}
         <Box flex={1} sx={{ height: "20%" }}>
-
-
           <TabContext value={value}>
             <Box
               sx={{
@@ -154,18 +166,22 @@ const App = () => {
                   value={input}
                   placeholder="Input"
                   onChange={(e) => setInput(e.target.value)}
-                  style={{ width: '100%', padding: 8, borderRadius: 4, border: '1px solid #ccc' }}
+                  style={{
+                    width: "100%",
+                    padding: 8,
+                    borderRadius: 4,
+                    border: "1px solid #ccc",
+                  }}
                 />
               </Box>
               <Button
                 variant="contained"
-                sx={{ mt: 2, width: '100%' }}
+                sx={{ mt: 2, width: "100%" }}
                 onClick={handleSubmit}
               >
                 Run
               </Button>
               {/* Output box */}
-
             </TabPanel>
             <TabPanel value="2">
               <StyledOutputContainer>
@@ -175,19 +191,19 @@ const App = () => {
                 <Box
                   sx={{
                     fontFamily: '"Fira code", "Fira Mono", monospace',
-                    fontSize: '0.75rem',
-                    whiteSpace: 'pre-wrap'
+                    fontSize: "0.75rem",
+                    whiteSpace: "pre-wrap",
                   }}
                 >
                   {output}
                 </Box>
-              </StyledOutputContainer
-              ></TabPanel>
+              </StyledOutputContainer>
+            </TabPanel>
           </TabContext>
         </Box>
       </Box>
     </Container>
   );
-}
+};
 
 export default App;

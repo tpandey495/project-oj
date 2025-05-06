@@ -60,7 +60,15 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       const user = await loginUser(userRegistration).unwrap();
-      dispatch(login(user));
+
+      // Transform the response here to match the shape expected by `login()`
+      const payload = {
+        token: user.accessToken, // or user.token, based on your actual response
+        email: user.user.email, // or user.email, depending on structure
+      };
+
+      dispatch(login(payload));
+
       setUserRegistration({
         email: "",
         password: "",
