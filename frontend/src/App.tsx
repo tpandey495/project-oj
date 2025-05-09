@@ -10,6 +10,7 @@ import MainLayout from "./layout/MainLayout";
 import ProtectedRoute from "./component/ProtectedRoute";
 import DomainsPage from "./pages/Domains/DomainsPage";
 import "./App.css";
+import CreateMap from "pages/Roadmap/CreateMap";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+         path:"create-roadmap",
+         element:<CreateMap />
+
       },
       {
         path: "profile",

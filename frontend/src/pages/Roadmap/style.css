@@ -1,0 +1,88 @@
+/* .App {
+  font-family: sans-serif;
+  text-align: center;
+} */
+html,
+body {
+  background-color: rgb(255, 255, 255);
+  font-family: nt-dapper, -apple-system, system-ui, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  font-size: 16px;
+  padding: 0px;
+  margin: 0px;
+  min-height: 100vh;
+}
+
+.dndflow {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.reactflow-wrapper {
+  flex-grow: 1;
+  height: 100vh;
+}
+
+.dndflow aside {
+  background: #fff;
+  border-left: 1px solid #eee;
+  font-size: 12px;
+  padding: 15px 10px;
+}
+.right-side-bar {
+  max-width: 250px;
+  width: 20%;
+}
+
+.dndflow .dndnode,
+.dndflow aside .description {
+  margin-bottom: 10px;
+}
+
+.dndflow .dndnode {
+  align-items: center;
+  border: 1px solid #1a192b;
+  border-radius: 2px;
+  cursor: grab;
+  display: flex;
+  height: 20px;
+  justify-content: center;
+  padding: 4px;
+}
+
+/* .dndflow .dndnode.input {
+  border-color: #0041d0;
+}
+
+.dndflow .dndnode.output {
+  border-color: #ff0072;
+} */
+
+
+.custom-node {
+  padding: 5px;
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  background: #fafafa;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 400;
+  color: #000;
+  width: 100px;
+}
+
+
+.react-flow__handle {
+  position: absolute;
+  pointer-events: none;
+  min-width: 3px;
+  min-height: 3px;
+  width: 3px;
+  height: 3px;
+  background-color:#8e8e8e;
+  border-radius: 100%;
+}
