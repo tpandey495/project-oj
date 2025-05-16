@@ -10,6 +10,8 @@ import MainLayout from "./layout/MainLayout";
 import ProtectedRoute from "./component/ProtectedRoute";
 import DomainsPage from "./pages/Domains/DomainsPage";
 import "./App.css";
+import CreateMap from "pages/Roadmap/CreateMap";
+import CreateProblem from "pages/CreateProblem/CreateProblem";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
         element: <ProtectedRoute element={<Contest />} />,
       },
       {
+        path: "create-problem",
+        element: <CreateProblem />,
+      },
+      {
         path: "discuss",
         element: <ProtectedRoute element={<Discuss />} />,
       },
@@ -39,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "create-roadmap",
+        element: <CreateMap />,
       },
       {
         path: "profile",

@@ -2,17 +2,16 @@ import {
   DataGrid,
   GridColDef,
   GridRowsProp,
-  GridRowParams,
+  GridEventListener,
 } from "@mui/x-data-grid";
-import { FC } from "react";
 
 interface CustomDataGridProps {
   rows: GridRowsProp;
   columns: GridColDef[];
-  handleRowClick: (params: GridRowParams) => void;
+  handleRowClick?: GridEventListener<"rowClick">;
 }
 
-const CustomDataGrid: FC<CustomDataGridProps> = ({
+const CustomDataGrid: React.FC<CustomDataGridProps> = ({
   rows,
   columns,
   handleRowClick,
@@ -21,7 +20,7 @@ const CustomDataGrid: FC<CustomDataGridProps> = ({
     <DataGrid
       rows={rows}
       columns={columns}
-      pageSizeOptions={[5]}
+      // pageSize={5}
       getRowClassName={(params) =>
         params.indexRelativeToCurrentPage % 2 === 0 ? "even-row" : "odd-row"
       }
