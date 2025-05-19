@@ -11,7 +11,7 @@ import ProtectedRoute from "./component/ProtectedRoute";
 import DomainsPage from "./pages/Domains/DomainsPage";
 import "./App.css";
 import CreateMap from "pages/Roadmap/CreateMap";
-
+import ViewRoadmap from "pages/Roadmap/ViewRoadmap";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,6 +46,11 @@ const router = createBrowserRouter([
          element:<CreateMap />
 
       },
+      {
+        path:"view-roadmap",
+        element:<ViewRoadmap />
+
+     },
       {
         path: "profile",
         element: <ProtectedRoute element={<Profile />} />,

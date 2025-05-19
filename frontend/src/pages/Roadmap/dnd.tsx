@@ -2,7 +2,6 @@ import React, {
   useRef,
   useCallback,
   useState,
-  useEffect,
   DragEvent,
 } from "react";
 import {
@@ -18,9 +17,8 @@ import {
   Node,
   Edge,
   Connection,
-  NodeChange,
-  EdgeChange,
 } from "@xyflow/react";
+import { useNavigate } from 'react-router-dom';
 
 import "@xyflow/react/dist/style.css";
 
@@ -53,7 +51,7 @@ const DnDFlow: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentNode, setCurrentNode] = useState<Node | null>(null);
   const [newLabel, setNewLabel] = useState("");
-
+  const navigate = useNavigate();
   const onConnect = useCallback(
     (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
     []
@@ -129,7 +127,7 @@ const DnDFlow: React.FC = () => {
       edges,
     };
   
-
+    navigate('/view-roadmap', { state: flowData });
     console.log("Flow Data Submitted:", JSON.stringify(flowData, null, 2));
 
   };
