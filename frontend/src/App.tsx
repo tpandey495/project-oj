@@ -12,6 +12,7 @@ import DomainsPage from "./pages/Domains/DomainsPage";
 import "./App.css";
 import CreateMap from "pages/Roadmap/CreateMap";
 import CreateProblem from "pages/CreateProblem/CreateProblem";
+import ReadonlyFlowWrapper from "pages/Roadmap/ReadonlyFlow";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "create-roadmap",
         element: <CreateMap />,
+      },
+      {
+        path: "view-roadmap",
+        element: <ReadonlyFlowWrapper />,
       },
       {
         path: "profile",
